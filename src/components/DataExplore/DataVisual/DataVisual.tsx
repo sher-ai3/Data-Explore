@@ -224,7 +224,7 @@ function AutoForm({
     ];
   const getMatch = (key: string) => controlerMap.find((r) => r.regex.test(key));
 
-  const value = form.getFieldValue("Xcolumn");
+const value = Form.useWatch("Xcolumn", form); 
   const [header, ...data] = dataset;
   const index = header.indexOf(value);
 
@@ -326,7 +326,7 @@ const DataVisual = forwardRef<DataVisualHandle, DataVisualProps>(function DataVi
   // 把“根据类型 + 初始值初始化表单”的逻辑封装一下
   const applyInit = (chartType: ChartType, values?: Record<string, any>) => {
     const defaults = buildInitialValuesForType(chartType);
-    const merged = values ? { ...defaults, ...values } : defaults;
+    const merged = values ? { ...defaults, ...values } : defaults;    // 感觉这段逻辑导致编辑出问题
     form.resetFields();
     form.setFieldsValue(merged);
     setPanelValues(merged);
@@ -336,7 +336,7 @@ const DataVisual = forwardRef<DataVisualHandle, DataVisualProps>(function DataVi
     const nextType = normalizeType(initialType);
     setType(nextType);
     applyInit(nextType, initialValues);
-  }, [initialType, initialValues, form]);
+  }, [initialType, initialValues]);
 
 
   const handleTypeChange = (nextTypeStr: string) => {
@@ -370,8 +370,6 @@ const DataVisual = forwardRef<DataVisualHandle, DataVisualProps>(function DataVi
     SaveValues: () => {
       const vals = form.getFieldsValue(true);
       console.log("[DataVisual] SaveValues -> form.getFieldsValue(true):", vals);
-      // 也打印 keys 以便比对
-      console.log("[DataVisual] SaveValues -> keys:", Object.keys(vals));
       return vals;
     },
   }),
@@ -400,7 +398,7 @@ const DataVisual = forwardRef<DataVisualHandle, DataVisualProps>(function DataVi
           layout="vertical"
           form={form}
           onValuesChange={handleFormChange}
-          preserve={false}
+          // preserve={false}
         >
           <Tabs
             items={Registry[type].map((p) => ({
