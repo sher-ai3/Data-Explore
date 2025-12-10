@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  gap: 20px;            
+  height: 480px;
+  padding: 16px;
+  background: #fafafa;
+}
+
+.left {
+   width: 340px;          
+  flex: 0 0 340px;
+  padding: 16px 14px 16px 16px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: auto;   
+}
+
+.right {
+  flex: 1 1 auto;
+  min-width: 0;          
+  display: flex;
+}
